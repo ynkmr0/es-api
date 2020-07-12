@@ -1,0 +1,28 @@
+version: '3'
+
+volumes:
+  es-data:
+    driver: local
+
+services:
+  elasticsearch:
+    build: ./elasticsearch
+    volumes:
+      - ./elasticsearch/es-data:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+  golang:
+    build: ./golang
+    ports:
+      - "8080:80"
+    volumes: 
+      - ./golang:/go/src/hot_reload_docker
