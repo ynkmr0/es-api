@@ -7,6 +7,7 @@ volumes:
 services:
   elasticsearch:
     build: ./elasticsearch
+    container_name: es01 
     volumes:
       - ./elasticsearch/es-data:/usr/share/elasticsearch/data
     environment:
@@ -22,6 +23,7 @@ services:
       - "9200:9200"
   golang:
     build: ./golang
+    container_name: es-api
     ports:
       - "8080:80"
     volumes: 
